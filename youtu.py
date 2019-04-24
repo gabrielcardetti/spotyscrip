@@ -1,12 +1,26 @@
 from __future__ import unicode_literals
 from bs4 import BeautifulSoup
+import os
 import youtube_dl
 import urllib.request
 
 
+def createFolder(directory):
+    """
+    create a new dir
+    """
+    try:
+        if not os.path.exists("./" + directory):
+            os.makedirs("./" + directory)
+    except OSError:
+        print('Error: Creating directory. ' + directory)
+
+
 class Youtu(object):
-    def __init__(self):
+    def __init__(self, dirname):
         self.song_dowland = ""
+        self.dir = dirname
+        createFolder(dirname)
 
     def search_dowland(self, querys):
         """
@@ -35,9 +49,12 @@ class Youtu(object):
     def dowland_mp3(self, uri):
         """
             TODO: I should rename de files
+            see this
+            https://github.com/ytdl-org/youtube-dl/blob/master/README.md#output-template
         """
         print("[START DOWNLOAD] " + self.song_dowland + "\r\n")
         ydl_opts = {
+            'outtmpl': self.dir + '/%(title)s-%(id)s.%(ext)s',
             'format': 'bestaudio/best',
             'postprocessors': [{
                 'key': 'FFmpegExtractAudio',
