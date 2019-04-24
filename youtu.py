@@ -4,11 +4,14 @@ import youtube_dl
 import urllib.request
 
 class Youtu(object):
+    def __init__(self):
+        self.song_dowland = ""
     def search_dowland(self, querys):
         """
         ...
         """
         uri = self.search_track(querys)
+        self.song_dowland = querys
         try:
             self.dowland_mp3(uri)
         except:
@@ -33,6 +36,7 @@ class Youtu(object):
         """
             TODO: I should rename de files
         """
+        print("[START DOWNLOAD] " + self.song_dowland+ "\r\n") 
         ydl_opts = {
                 'format': 'bestaudio/best',
                 'postprocessors': [{
@@ -44,5 +48,6 @@ class Youtu(object):
         with youtube_dl.YoutubeDL(ydl_opts) as ydl:
             info = ydl.extract_info(
                 uri)
-            print(info['formats'][0]['url'])
+            # print(info['formats'][0]['url'])
+        print("[COMPLETE DOWNLOAD] \r\n") 
         
