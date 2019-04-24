@@ -1,0 +1,4 @@
+private.py
+// in private.py you should have a CLIENT_ID and CLIENT_PRIVATE (client_secret) of spotify developer
+.vscode/
+__pycache__
