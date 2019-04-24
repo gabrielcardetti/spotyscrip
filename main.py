@@ -25,7 +25,7 @@ class Spot(object):
         I think I should return something like this.
         array of objects ??
        [ {
-            name:
+            playlist_name: //
             uri:
             image:[...]
         }....]
@@ -35,7 +35,7 @@ class Spot(object):
         while playlists:
             for playlist in playlists['items']:
                 data = {}
-                data["name"] = playlist["name"]
+                data["playlist_name"] = playlist["name"]
                 data["uri"] = playlist["uri"]
                 data["images"] = playlist["images"]
                 result.append(data)
@@ -43,4 +43,33 @@ class Spot(object):
                 playlists = sp.next(playlists)
             else:
                 playlists = None
+        return result
+
+    def get_tracks_playlist(self, playlist_id):
+        """
+        [{
+            {
+            track_name:
+            artist:
+            album_name:
+            images:
+            }
+        } ... ]
+
+         *Features: limit of tracks
+        """
+        results = self.sp.user_playlist_tracks(self.username, playlist_id)
+        tracks = results['items']
+        # Loops to ensure I get every track of the playlist
+        while results['next']:
+            results = self.sp.next(results)
+            tracks.extend(results['items'])
+        result = []
+        for track in tracks:
+            data = {}
+            data["track_name"] = track["track"]["name"]
+            data["artist"] = track["track"]["album"]["artists"][0]["name"]
+            data["album_name"] = track["track"]["album"]["name"]
+            data["images"] = track["track"]["album"]["images"]
+            result.append(data)
         return result
