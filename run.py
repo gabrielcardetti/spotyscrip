@@ -1,7 +1,13 @@
-import main
-
+import spot
+import json
 user = input("Enter the username : ")
 
-test = main.Spot(user)
+test = spot.Spot(user)
 data = test.get_playlist_user()
-print(data)
+playlist = data[0]['uri']
+tracks = test.get_tracks_playlist(playlist)
+
+list_search = test.list_for_search(tracks)
+for pepe in list_search:
+    print(pepe)
+# print(json.dumps(tracks, indent=2))
