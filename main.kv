@@ -1,17 +1,19 @@
-#:kivy 1.0.9    
+#:kivy 1.0.9
 
 <TestApp>:
-    AnchorLayout:
-        anchor_x: 'center'
-        anchor_y: 'center'
-        BoxLayout:
-            orientation: 'vertical'
-            height: 10
-            width: 100
-            TextInput:
-                id: txt_inp
-                multiline: False
-                size_hint_x: 3
-            Button:
-                text:'Display data'
-                on_release: root.do()
+    FloatLayout:
+        TextInput:
+            id: username
+            pos_hint:{"x": 0.1, "top":0.9}
+            size_hint:0.8, 0.1
+            hint_text: "Account Name: "
+        TextInput:
+            id: dirname
+            pos_hint:{"x": 0.1, "top":0.8}
+            size_hint:0.8, 0.1
+            hint_text: "Dir Name: "
+        Button:
+            pos_hint:{"x":0.2, "y": 0.1}
+            size_hint:0.6,0.2
+            text: "Download"
+            on_release: root.do()
