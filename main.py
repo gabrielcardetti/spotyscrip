@@ -1,17 +1,16 @@
 from kivy.app import App
-from kivy.uix.widget import Widget
+from kivy.uix.anchorlayout import AnchorLayout
 from kivy.lang import Builder
-res = Builder.load_file('pepe.kv')
 
+Builder.load_file('main.kv')
 
-class TestHelp(Widget):
-    pass
+class TestApp(AnchorLayout):
+    def do(self):
+        print(self.ids.txt_inp.text)
 
-
-class TestApp(App):
+class TApp(App):
     def build(self):
-        return res
-
+        return TestApp()
 
 if __name__ == '__main__':
-    TestApp().run()
+    TApp().run()

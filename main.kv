@@ -1,0 +1,17 @@
+#:kivy 1.0.9    
+
+<TestApp>:
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'center'
+        BoxLayout:
+            orientation: 'vertical'
+            height: 10
+            width: 100
+            TextInput:
+                id: txt_inp
+                multiline: False
+                size_hint_x: 3
+            Button:
+                text:'Display data'
+                on_release: root.do()
