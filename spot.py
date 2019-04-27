@@ -1,4 +1,3 @@
-
 import spotipy
 import spotipy.oauth2 as oauth2
 import json
@@ -7,28 +6,20 @@ from private import *
 
 class Spot(object):
     def __init__(self, username):
-        # I'm not sure what parameters I need
-        self.token = self.get_token()
         self.username = username
+        self.token = self.get_token()
         self.sp = spotipy.Spotify(auth=self.token)
-        # self.playlist = playlist ???
 
     def get_token(self):
         credentials = oauth2.SpotifyClientCredentials(
             client_id=CLIENT_ID,
-            client_secret=CLIENT_PRIVATE)
-        token = credentials.get_access_token()
-        return token
+            client_secret=CLIENT_PRIVATE
+        )
+        return credentials.get_access_token()
 
     def get_playlist_user(self):
         """
-        I think I should return something like this.
-        array of objects ??
-       [ {
-            playlist_name: //
-            uri:
-            image:[...]
-        }....]
+        Returns a map of playlists
         """
         result = []
         playlists = self.sp.user_playlists(self.username)
@@ -40,23 +31,15 @@ class Spot(object):
                 data["images"] = playlist["images"]
                 result.append(data)
             if playlists['next']:
-                playlists = sp.next(playlists)
+                playlists = self.sp.next(playlists)
             else:
                 playlists = None
         return result
 
     def get_tracks_playlist(self, playlist_id):
         """
-        [{
-            {
-            track_name:
-            artist:
-            album_name:
-            images:
-            }
-        } ... ]
-
-         *Features: limit of tracks
+        Returns an array of the tracks
+        belonging to a certain playlist
         """
         results = self.sp.user_playlist_tracks(self.username, playlist_id)
         tracks = results['items']
@@ -76,9 +59,7 @@ class Spot(object):
 
     def list_for_search(self, tracks):
         """
-        ["track_name artist " , .......]
-
-        ¿¿search more espesific??
+        Build the search commands for youtube
         """
         result = []
         for track in tracks:
