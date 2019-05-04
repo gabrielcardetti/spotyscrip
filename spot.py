@@ -6,10 +6,9 @@ from private import *
 
 
 class Spot(object):
-    def __init__(self, username):
+    def __init__(self):
         # I'm not sure what parameters I need
         self.token = self.get_token()
-        self.username = username
         self.sp = spotipy.Spotify(auth=self.token)
         # self.playlist = playlist ???
 
@@ -20,18 +19,16 @@ class Spot(object):
         token = credentials.get_access_token()
         return token
 
-    def get_playlist_user(self):
+    def get_playlist_user(self, user):
         """
-        I think I should return something like this.
-        array of objects ??
        [ {
-            playlist_name: //
+            playlist_name:
             uri:
             image:[...]
         }....]
         """
         result = []
-        playlists = self.sp.user_playlists(self.username)
+        playlists = self.sp.user_playlists(user)
         while playlists:
             for playlist in playlists['items']:
                 data = {}
@@ -45,7 +42,7 @@ class Spot(object):
                 playlists = None
         return result
 
-    def get_tracks_playlist(self, playlist_id):
+    def get_tracks_playlist(self, playlist_id, username):
         """
         [{
             {
@@ -58,7 +55,7 @@ class Spot(object):
 
          *Features: limit of tracks
         """
-        results = self.sp.user_playlist_tracks(self.username, playlist_id)
+        results = self.sp.user_playlist_tracks(username, playlist_id)
         tracks = results['items']
         # Loops to ensure I get every track of the playlist
         while results['next']:
@@ -73,6 +70,9 @@ class Spot(object):
             data["images"] = track["track"]["album"]["images"]
             result.append(data)
         return result
+
+    def get_playlist_artist(self, name):
+        return self.sp.search(name)
 
     def list_for_search(self, tracks):
         """
