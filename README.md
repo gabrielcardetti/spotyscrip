@@ -17,6 +17,6 @@ https://kivy.org/#home
 
 ## Instructions to prove what I have done so far
 
-> git clone https://github.com/gabrielcardetti/spotyscrip
-> git checkout dev
-> python run.py
+> git clone https://github.com/gabrielcardetti/spotyscrip       
+> git checkout dev           
+> python run.py            
